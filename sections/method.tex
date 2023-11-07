@@ -1,0 +1,76 @@
+\section{Theory and Method}
+
+\subsection{Mobility}
+Mobility describes how easily charge carriers can move through a semiconductor. It is related to the resistivity of the semiconductor by:
+\begin{equation} \label{eq:res_mu}
+\rho = \frac{1}{q \mu N}
+\end{equation}
+where $\mu$ is the mobility, $N$ is the carrier concentration and $\rho$ is the resistivity. The mobility depends on many parameters such as temperature, doping level, electric field and surface scattering. \cite{Baliga2019}
+
+
+Multiple models for the mobility can be used and combined using Matthiessen's rule:
+\begin{equation} \label{eq:matthiessen}
+    \frac{1}{\mu} = \frac{1}{\mu_1} + \frac{1}{\mu_2} + \dots 
+\end{equation}
+By modeling different mobility dependances separately they can then be combined using \cref{eq:matthiessen}.
+
+\subsubsection{Doping Dependance}
+Experimental data shows that mobility decreases with increasing doping. One simple model for this is the Arora model given by:
+\begin{equation} \label{eq:mu_ar}
+    \mu_{dop} = \mu_{min} + \frac{\mu_d}{1 + \left(\frac{N_A + N_D}{N_0}\right)^A}
+\end{equation}
+where $N_A$ and $N_D$ is the doping concentration and $\mu_{min}$, $\mu_d$, $N_0$ and $A$ are fitting parameters. In order to account for temperature dependance every fitting parameter can be multiplied with a temperature dependant scaling factor, $k_i$
+\begin{equation} \label{eq:k_i}
+    k_i = \left(\frac{T}{\SI{300}{\kelvin}}\right)^{\alpha_i}
+\end{equation}
+where $T$ is the temperature in Kelvin and $\alpha_i$ is another unique fitting parameter for each parameter mentioned above. Combining \cref{eq:mu_ar,eq:k_i} then yields:
+\begin{equation} \label{eq:mu_ar_full}
+    \mu_{dop} = \mu_{min} \cdot \left( \frac{T}{\SI{300}{\kelvin}} \right)^{\alpha_m} + %
+    \frac{\mu_d \cdot \left( \frac{T}{\SI{300}{\kelvin}} \right)^{\alpha_d}} %
+    {1 + \left( \frac{N_A + N_D}{N_0 \cdot \left( \frac{T}{\SI{300}{\kelvin}} \right)^{\alpha_N}} \right)^{A \cdot \left( \frac{T}{\SI{300}{\kelvin}} \right)^{\alpha_A}}}
+\end{equation}
+
+\subsubsection{Electric Field Dependance}
+Velocity no longer scale proportionally to applied field at high field strength, leading to field dependant mobility.
+
+\subsubsection{Surface Scattering Dependance}
+Interfaces between semiconductor and oxide introduce defects. This leads to a mobility degradation close to the surface due to several scattering phenomena. These include surface roughness scattering, acoustic phonon scattering and Coulomb scattering due to charged traps at the interface. Surface roughness and acoustic phonon scattering are both described in the enhanced Lombardi model and depend strongly on the electric field normal to the interface ($E_\perp(x)$). The mobility degradation due to acoustic phonon scattering is given by:
+\begin{equation} \label{eq:mu_ac}
+    \mu_{ac}(x) = \frac{B}{E_\perp(x)} + \frac{C \left( N_A + N_D \right)^\lambda }{E_\perp^{\frac{1}{3}}(x) \cdot \left( \frac{T}{\SI{300}{\kelvin}} \right)^k}
+\end{equation}
+and the degradation from surface roughness is given by:
+\begin{equation} \label{eq:mu_sr}
+    \mu_{sr}(x) = \left( \frac{E^2_\perp(x)}{\delta} + \frac{E^3_\perp(x)}{\eta} \right)^{-1}
+\end{equation}
+with $B$, $C$, $\lambda$, $k$, $\delta$ and $\eta$ being fitting parameters and $x$ being the distance from the interface. The mobilities from \cref{eq:mu_ac,eq:mu_sr} can then be combined with any bulk mobility ($\mu_b$) using \cref{eq:matthiessen}. However as these effects only occur at the surface they need to be weighted with a distance factor $D(x) = \exp(-x/l_{crit})$. $l_{crit}$ is also a fitting parameter. This gives the final mobility:
+\begin{equation}
+    \frac{1}{\mu} = \frac{1}{\mu_b} + \frac{D(x)}{\mu_{ac}(x)} + \frac{D(x)}{\mu_{sr}(x)}
+\end{equation}
+
+
+The mobility degradation from Coulomb scattering, i.e. scattering from trap charges at the interface can be modeled using the following formula:
+\begin{equation} \label{eq:mu_c}
+    \mu_c(x) = \frac{\mu_1\left( \frac{T}{\SI{300}{\kelvin}} \right)^k \left[ 1 + \left(\frac{n}{c_{trans}%
+    %\cdot\left(\frac{N_A}{\SI[parse-numbers=false]{10^{18}}{\cm^{-3}}}\right)^{\gamma_1} 
+    \cdot \left( \frac{N_{p,i}}{N_0} \right)^{\eta_1}} \right)^{\nu}\right]}{%
+        %\left( \frac{N_A}{\SI[parse-numbers=false]{10^{18}}{\cm^{-3}}} \right)^{\gamma_2}\cdot 
+        \left(\frac{N_{p,i}}{N_0}\right)^{\eta_2} \cdot D(x) \cdot f(E_\perp(x)) }
+\end{equation}
+Coulomb scattering only occurs if the field normal to the interface is sufficiently large. Therefore the field dependant function $f(E_\perp)$ is introduced:
+\begin{equation} \label{eq:f_E_perp}
+    f(E_\perp(x)) = 1 - \exp\left[-\left(\frac{E_\perp(x)}{E_0}\right)^\gamma \right]
+\end{equation}
+In \cref{eq:mu_c,eq:f_E_perp} $\mu_1$, $k$, $\nu$, $c_{trans}$, $N_0$, $\eta_1$, $\eta_2$, $\gamma$ and $E_0$ are fitting parameters and $T$ is the temperature, $n$ is the electron charge density, $N_{p,i}$ is the positive interface charge density and $D(x)$ is the above mentioned distance factor.
+
+
+\subsubsection{Effective Mobility}
+As many of the above mentioned mobility models depend on the position it can be hard to measure these in physical devices. Therefore the concept of effective mobility is very useful. The effective mobility is given by \cite{Baliga2019}:
+\begin{equation} \label{eq:mu_e_int}
+    \mu_{e} = \frac{\int_{-x_i}^{x_i}\mu(x)n(x)dx}{\int_{-x_i}^{x_i}n(x)dx}
+\end{equation}
+This can be interpreted as a weighted average of the mobility, weighted by the position of the actual charge carries, meaning that areas without or with very few mobile charges does not contribute to the overall effective mobility and areas with a high charge carrier concentration have a large contribution.
+
+Another way of calculating the effective channel mobility is by using the definition of mobility. The final formula for the mobility then becomes \cite{Gribisch2023}:
+\begin{equation} \label{eq:mu_e}
+    \mu_e = \frac{g_dL_g}{L_wQ_n}
+\end{equation}

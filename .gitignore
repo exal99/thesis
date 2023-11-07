@@ -1,0 +1,10 @@
+.*
+!.gitignore
+*.aux
+*.bbl
+*.bcf
+*.log
+*.out
+*.xml
+*.toc
+*.gz

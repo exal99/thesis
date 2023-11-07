@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{cleveref} 
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{upgreek}
+ \geometry{
+ a4paper,
+ total={170mm, 257mm},
+ left=20mm, 
+ top=20mm,
+ }
+
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{circuitikz}
+
+\usepackage[version=4]{mhchem}
+
+\usepackage{bm}
+\usepackage{comment}
+
+\usepackage[sorting=none]{biblatex}
+\addbibresource{references/references.bib}
+
+
+\title{Simulating Vertical GaN FinFET in Sentaurus}
+\author{Alexander Simko}
+% \date{June 2023}
+
+
+\newcommand{\introsection}[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+
+\begin{document}
+
+\pagenumbering{gobble}
+\input{sections/title.tex}
+\newpage
+
+\pagenumbering{roman}
+\input{sections/abstract.tex}
+\newpage
+
+
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{sections/intro.tex}
+\newpage
+
+\input{sections/method.tex}
+\newpage
+
+\input{sections/result.tex}
+\newpage
+
+\input{sections/discussion.tex}
+\newpage
+
+\addcontentsline{toc}{section}{References}
+\printbibliography
+
+\end{document}
